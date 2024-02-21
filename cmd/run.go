@@ -9,10 +9,6 @@ func main() {
 const DefaultPort = "8090"
 const RunningPrefix = "running..."
 
-func RunnerMsg() string {
-	return RunningPrefix
-}
-
 func RunnerWithPort(port string) string {
 	if port == "" {
 		port = DefaultPort
