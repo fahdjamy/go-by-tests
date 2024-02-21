@@ -3,19 +3,24 @@ package main
 import "testing"
 
 func TestRunnerMsg(t *testing.T) {
-	received := RunnerMsg()
-	expected := RunningPrefix
+	t.Run("running with empty port should default to port 8090", func(t *testing.T) {
+		received := RunnerWithPort("")
+		expected := RunningPrefix + " on port, :8090"
 
-	if received != expected {
-		t.Errorf("Recieved %q, Expected %q", received, expected)
-	}
+		assertEqualStrings(t, received, expected)
+	})
+
+	t.Run("running with a port specified", func(t *testing.T) {
+		received := RunnerWithPort("8000")
+		expected := RunningPrefix + " on port, :8000"
+
+		assertEqualStrings(t, received, expected)
+	})
 }
 
-func TestRunningWithPort(t *testing.T) {
-	got := RunnerWithPort(":8000")
-	wanted := RunningPrefix + " on port, :8000"
-
-	if got != wanted {
-		t.Errorf("GOT %q, WANTED %q", got, wanted)
+func assertEqualStrings(t testing.TB, received, expected string) {
+	t.Helper()
+	if received != expected {
+		t.Errorf("Recieved %q, Expected %q", received, expected)
 	}
 }

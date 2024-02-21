@@ -3,9 +3,10 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(RunnerMsg())
+	fmt.Println(RunnerWithPort(""))
 }
 
+const DefaultPort = "8090"
 const RunningPrefix = "running..."
 
 func RunnerMsg() string {
@@ -13,5 +14,8 @@ func RunnerMsg() string {
 }
 
 func RunnerWithPort(port string) string {
-	return RunningPrefix + " on port, " + port
+	if port == "" {
+		port = DefaultPort
+	}
+	return RunningPrefix + " on port, :" + port
 }
