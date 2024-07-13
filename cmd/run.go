@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 const (
 	french  = "French"
 	spanish = "Spanish"
@@ -13,9 +11,9 @@ const (
 	frenchPrefix  = "en cours d'exécution..."
 )
 
-func main() {
-	fmt.Println(RunnerWithPort("", ""))
-}
+//func main() {
+//	fmt.Println(RunnerWithPort("", ""))
+//}
 
 const DefaultPort = "8090"
 const RunningPrefix = "running..."
@@ -41,4 +39,13 @@ func runningOnPrefix(language string) string {
 		runningOn = englishPrefix
 	}
 	return runningOn
+}
+
+func Summer(numbers []int) int {
+	var answer int
+	for _, n := range numbers {
+		answer += n
+	}
+
+	return answer
 }

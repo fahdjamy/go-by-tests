@@ -19,6 +19,15 @@ func TestRunnerMsg(t *testing.T) {
 
 		assertEqualStrings(t, received, expected)
 	})
+
+	t.Run("summing with valid values", func(t *testing.T) {
+		response := Summer([]int{1, 2, 3, 4, 5})
+		expected := 15
+
+		if response != expected {
+			t.Errorf("Summer did not return want value. Expected: %d, Actual: %d", expected, response)
+		}
+	})
 }
 
 func assertEqualStrings(t testing.TB, received, expected string) {
