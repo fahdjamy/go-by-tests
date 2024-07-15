@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"reflect"
 	"testing"
+	"time"
 )
 
 const (
@@ -24,6 +25,14 @@ func (s *SpyCountdownOperations) Sleep() {
 func (s *SpyCountdownOperations) Write(p []byte) (n int, err error) {
 	s.Operations = append(s.Operations, write)
 	return
+}
+
+type spyTime struct {
+	durationSlept time.Duration
+}
+
+func (s *spyTime) Sleep(duration time.Duration) {
+	s.durationSlept = duration
 }
 
 func TestCountDown(t *testing.T) {
@@ -65,6 +74,23 @@ Boom
 		}
 		if !reflect.DeepEqual(expectedOperations, spySleepWriter.Operations) {
 			t.Errorf("Expected operations to be %v, but was %v", expectedOperations, spySleepWriter.Operations)
+		}
+	})
+}
+
+func TestConfigurableSleeper(t *testing.T) {
+	t.Run("configurable sleeper", func(t *testing.T) {
+		spyTime := &spyTime{}
+		sleepTime := 5 * time.Second
+
+		configurableSleeper := ConfigurableSleeper{
+			duration: sleepTime,
+			sleep:    spyTime.Sleep,
+		}
+
+		configurableSleeper.Sleep()
+		if spyTime.durationSlept != sleepTime {
+			t.Errorf("should have slept for %v, but slept for %v", sleepTime, spyTime.durationSlept)
 		}
 	})
 }
